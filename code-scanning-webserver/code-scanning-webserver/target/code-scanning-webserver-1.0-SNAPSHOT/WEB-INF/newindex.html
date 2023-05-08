@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 引入ElementUI样式-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <title>扫码结果</title>
+</head>
+<body>
+<div id="app">
+    <h1>扫码结果</h1>
+    <el-button
+            plain
+            @click="open1">
+        查看最近扫码结果
+    </el-button>
+
+    <el-table :data="mydata" :row-class-name="tableRowClassName" class="table">
+        <el-table-column prop="key" label="提货单号"></el-table-column>
+        <el-table-column label="车牌号" prop="value[0]"></el-table-column>
+        <el-table-column label="时间">
+            <template slot-scope="{ row }">
+                <span>{{ formattedDate(row.value[1]) }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column label="状态">
+            <template slot-scope="scope">
+                <div class="table-status">
+                    <div class="table-status-box">
+                        已入场
+                    </div>
+                </div>
+            </template>
+        </el-table-column>
+    </el-table>
+
+</div>
+</body><!--引入ElementUI组件必须先引入Vue-->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- 引入ElementUI组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!-- 引入Axios -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    const vue = new Vue({
+        el: '#app',
+        computed: {
+            stateValue(){
+                return this.stateVal
+            }
+        },
+        mounted:function () {
+            this.$nextTick(() => {
+                setInterval(this.refreshList, 1000);
+            })
+        },
+        data:function(){
+            return {
+                success: "无结果",
+                nowId: "null",
+                mydata: [],
+                stateVal: ''
+            }
+        },
+        methods: {
+            tableRowClassName({row, rowIndex}) {
+                if (rowIndex % 2 === 1) {
+                    return 'warning-row';
+                } else if (rowIndex % 2 === 0) {
+                    return 'success-row';
+                }
+                return '';
+            },
+            open1() {
+                const h = this.$createElement;
+                this.$notify({
+                    title: this.success,
+                    message: h('i', { style: `color: ${this.success === '扫码成功' ? 'green' : 'red'}` },'提货单号' + this.nowId)
+                });
+            },
+            refreshList() {
+                axios.get('http://localhost:8080/scanning/code').then(response =>{
+                    // console.log(this.nowId + " "+response.data.order_number)
+                    if(this.nowId !== response.data.order_number || this.success != response.data.result){
+                        this.nowId = response.data.order_number
+                        this.success = response.data.result
+                        this.open1()
+                    }
+                    // console.log(this.nowId + " "+this.success)
+                    this.mydata = Object.entries(response.data.data).map(([key,value]) => ({key,value}))
+                    console.log(response.data.data)
+                })
+            },formattedDate(dateStr) {
+                // 将 T 替换为空格，并获取没有秒毫秒的子字符串
+                return dateStr.replace('T', ' ').substring(0, 19);
+            }
+
+        }
+    }).$mount('#app')
+</script>
+<style>
+    .el-table .warning-row {
+        background: oldlace;
+    }
+
+    .el-table .success-row {
+        background: #f0f9eb;
+    }
+    .table {
+        border: none;
+        margin-top: 20px;
+    }
+
+    .el-table .warning-row {
+        background: oldlace;
+    }
+
+    .el-table .success-row {
+        background: #f0f9eb;
+    }
+
+    .table-status {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .table-status-box {
+        border-radius: 5px;
+        border: 1px solid #999999;
+        padding: 5px;
+        font-size: 14px;
+    }
+
+    .el-button {
+        margin-top: 20px;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+    }
+
+</style>
+</html>
