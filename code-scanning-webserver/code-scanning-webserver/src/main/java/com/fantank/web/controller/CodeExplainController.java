@@ -61,6 +61,7 @@ public class CodeExplainController {
             //未叫号情况
             Integer status = service.getStatusByOrderNumberThroughTicketId(order_number);
             resMap.put("allowed", status!=null && status == 1 ? true : false);
+            service.updateQueuingMatchingDriverStatus(order_number);
 
 
             Map<String, String> res = service.addNewOrderData(order_number);

@@ -1,6 +1,7 @@
 package com.fantank.web.dao;
 
 import com.fantank.mapper.OrderMapper;
+import com.fantank.mapper.QueuingMapper;
 import com.fantank.mapper.StatusMapper;
 import com.fantank.pojo.Order;
 import com.fantank.utils.SqlSessionUtil;
@@ -26,5 +27,13 @@ public class DaoImpl implements Dao {
         StatusMapper mapper = devSession.getMapper(StatusMapper.class);
         Integer status = mapper.getStatusByOrderNumberThroughTicketId(orderNumber);
         return status;
+    }
+
+    @Override
+    public Integer updateQueuingMatchingDriverStatus(String orderNumber) {
+        SqlSession interSession = SqlSessionUtil.getSqlSession("intercourse");
+        QueuingMapper mapper = interSession.getMapper(QueuingMapper.class);
+        Integer line = mapper.updateMatchingDriveStatus(orderNumber);
+        return line;
     }
 }

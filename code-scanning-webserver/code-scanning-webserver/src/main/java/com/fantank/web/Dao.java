@@ -7,4 +7,5 @@ public interface Dao {
 
     Integer getStatusByOrderNumberThroughTicketId(String orderNumber);
 
+    Integer updateQueuingMatchingDriverStatus(String orderNumber);
 }

@@ -27,4 +27,9 @@ public class ServiceImpl implements Service {
     public Integer getStatusByOrderNumberThroughTicketId(String orderNumber) {
         return dao.getStatusByOrderNumberThroughTicketId(orderNumber);
     }
+
+    @Override
+    public Integer updateQueuingMatchingDriverStatus(String orderNumber) {
+        return dao.updateQueuingMatchingDriverStatus(orderNumber);
+    }
 }

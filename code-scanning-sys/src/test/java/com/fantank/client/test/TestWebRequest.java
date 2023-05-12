@@ -9,7 +9,7 @@ public class TestWebRequest {
     @Test
     public void testResponse() throws InterruptedException {
 
-        WebRequest.sendWebMessage("40015843","扫码成功");
+        WebRequest.sendWebMessage("80058387","扫码成功");
         sleep(10000);
     }
 }
