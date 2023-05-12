@@ -12,7 +12,7 @@ import java.util.Map;
 public class HandShakeInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Map<String, Object> map) throws Exception {
-        System.out.println("Websocket From "+serverHttpRequest.getURI());
+        System.out.println("Websocket From "+serverHttpRequest.getRemoteAddress());
         System.out.println(serverHttpRequest.getHeaders());
         return true;
     }

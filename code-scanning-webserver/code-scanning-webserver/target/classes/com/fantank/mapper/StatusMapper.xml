@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fantank.mapper.StatusMapper">
+<!--   Integer getStatusByOrderNumberThroughTicketId(String orderNumber);-->
+    <select id="getStatusByOrderNumberThroughTicketId" resultType="Integer">
+        select DISTINCT ticket.status from ticket,order_out
+            where ticket.id = (select ticket_id from order_out where order_number like '%${order_number}')
+    </select>
+</mapper>

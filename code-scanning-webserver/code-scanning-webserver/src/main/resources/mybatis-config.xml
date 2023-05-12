@@ -20,6 +20,15 @@
                 <property name="password" value="${jdbc.password}"/>
             </dataSource>
         </environment>
+        <environment id="intercourse">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED" >
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url2}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
     </environments>
 
     <mappers>

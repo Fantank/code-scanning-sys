@@ -22,4 +22,9 @@ public class ServiceImpl implements Service {
         res.put("time_in",order.getTimeIn());
         return res;
     }
+
+    @Override
+    public Integer getStatusByOrderNumberThroughTicketId(String orderNumber) {
+        return dao.getStatusByOrderNumberThroughTicketId(orderNumber);
+    }
 }

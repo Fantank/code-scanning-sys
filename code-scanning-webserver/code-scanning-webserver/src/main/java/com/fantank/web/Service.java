@@ -6,4 +6,5 @@ import java.util.Map;
 
 public interface Service {
     Map<String,String> addNewOrderData(String orderNumber);
+    Integer getStatusByOrderNumberThroughTicketId(String orderNumber);
 }

@@ -7,7 +7,6 @@ import org.springframework.web.socket.*;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Map;
 
 @Component
 public class MyWebSocketHandler implements WebSocketHandler {
